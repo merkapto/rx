@@ -1,0 +1,88 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'img/favicon.png' %}">
+    <!-- <img src="{% static "favicon.ico" %}" alt="My image"/> -->
+
+<title>RxMuadil{% block head_title %}{% endblock %}</title>
+
+{% include 'static.html' %}
+</head>
+
+    <body>
+            {% include 'ustpanelilac.html' %}
+
+        <div id="wrapper" class="active">
+
+            {% include 'ilacyan.html' %}
+
+            <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    {% block jumbotron %}
+                    <div class="col-sm-12">
+                        <div class="jumbotron">
+                            <h1>RxMuadil'e Hoşgeldiniz!..</h1>
+                            <p>Yeni Nesil İlaç Bilgi Havuzu</p>
+                        </div>
+                    </div>
+                    {% endblock %}
+
+                    <div class="col-sm-12">
+                        {% block ilaccesit %}
+                        {% endblock %}
+                    </div>
+
+                    <div class="col-sm-12">
+                        <h2>{% block ilacustbilgi %}{% endblock %}</h2>
+                    </div>
+
+                    <div class="col-sm-12">
+                        {% block ilacdetay %}
+                        {% endblock %}
+                    </div>
+
+                </div><!--/div.row-->
+            </div><!--/div.container-->
+            </div><!--/div.page-content-wrapper-->
+        </div><!--/div.wrapper-->
+        <footer class="footer hidden-xs">
+            <div class="container">
+                <p class="text-muted">&copy; 2016 RxMuadil Company, Inc.</p>
+            </div>
+        </footer>
+
+
+<script src="{% static 'js/ie-emulation-modes-warning.js' %}"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+<!-- foot -->
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{% static 'js/jquery.js' %}"></script>
+<!-- <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+<script src="{% static 'js/bootstrap2.min.js' %}"></script>
+<script src="{% static 'js/offcanvas.js' %}"></script>
+<script src="{% static 'js/sidebar.js' %}"></script>
+<script src="{% static 'js/highslide.js' %}"></script>
+<script src="{% static 'js/lightbox.js' %}"></script>
+
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="{% static 'js/holder.min.js' %}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+
+    </body>
+</html>

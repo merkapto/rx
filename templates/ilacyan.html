@@ -1,0 +1,15 @@
+<div id="sidebar-wrapper">
+<!-- 	<ul class="sidebar-nav">
+        <li class="sidebar-brand"></li>
+    </ul> -->
+    <ul class="sidebar-nav" id="sidebar">
+
+	<!-- <div class="col-xs-3 col-sm-2 sidebar">
+    <ul class="nav"> -->
+	{% for il in ilaclar %}
+    	<li>
+    		<a href="{% url 'ilaccesit' il.id %}" >{{ il.ilac_adi }}</a>
+    	</li>
+    {% endfor %}
+	</ul>
+</div>

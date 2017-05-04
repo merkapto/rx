@@ -1,0 +1,172 @@
+{% extends 'ilactemel.html' %}
+{% load staticfiles %}
+{% block head_title %} - ilaç bilgi kaynağınız...{% endblock %}
+
+{% block jumbotron %}
+{% endblock %}
+
+{% block ilaccesit %}
+    <!-- <div class="col-xs-6 col-xs-offset-6 col-sm-11 col-sm-offset-1 main"> -->
+
+    {% for ic in ilaccesitleri %}
+        <div class="col-sm-2 hidden-xs" align="center">
+
+            {% if ic.resim %}
+            <a href="{{ ic.resim.url }}" data-lightbox="{{ ic.resim }}">
+<!--                 <a href="{{ ic.resim.url }}" class="highslide" onclick="return hs.expand(this)"> -->
+<!--                 <img src="thumbnail.jpg" alt="Highslide JS" title="Click to enlarge" height="100" width="100" /> -->
+<!--                 <img src="{{ ic.resim.url }}" width="150" height="150" class="img-responsive" alt="{{ ic }}" /> -->
+                    <img src="{{ ic.resim.url }}" width="150" height="150" title="Click to enlarge" alt="{{ ic }}" />
+            {% else %}
+                    <img src="/static/img/gorsel_yok.jpg" width="150" height="150" class="img-responsive" alt="gorsel yok" />
+            </a>
+            {% endif %}
+
+            <a href="{% url 'ilacdetay' ic.ilac.id ic.id %}">
+                <h4><b><i>{{ ic }}</i></b></h4>
+                {% for idb in ic.edb_set.all %}
+                    <h6 style="color:gray;"><b><i>{{ idb }}</i></b></h6>
+                {% endfor %}
+            <!-- <span class="text-muted">{{ id.doz }}{{ id.birim }}</span> -->
+            </a>
+        </div>
+    {% endfor %}
+    <!-- </div> -->
+{% endblock %}
+
+
+{% block ilacustbilgi %}
+{% for id in ilacdetaylari %}
+    <h2 style="color:red;"> {{ id }}
+        {% for idb in id.edb_set.all %}
+             - {{ idb.doz }}{{idb.birim }}
+        {% endfor %}
+    </h2>
+{% endfor %}
+<br>
+{% endblock %}
+
+
+{% block ilacdetay %}
+{% for id in ilacdetaylari %}
+
+  <ul class="nav nav-tabs nav-justified">
+    <li class="active"><a data-toggle="tab" href="#genel">Genel Bilgi</a></li>
+    <li><a data-toggle="tab" href="#muadil">Muadil</a></li>
+    <li><a data-toggle="tab" href="#sut">SUT</a></li>
+    <li><a data-toggle="tab" href="#prospektus">Prospektüs</a></li>
+    <li><a data-toggle="tab" href="#kub">KÜB</a></li>
+    <li><a data-toggle="tab" href="#kt">KT</a></li>
+    <li><a data-toggle="tab" href="#kkp">Diğer</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="genel" class="tab-pane fade in active">
+        <div class="col-sm-3">
+            <table class="table table-hover">
+                <h4>İlaç Genel Özellikleri</h4>
+                    <!-- <tbody class="col-xs-12 col-sm-6"> -->
+                        <tr>
+                            <th scope="row">Barkod:</th>
+                            <td>{{ id.barkod }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Satış Fiyatı:</th>
+                            <td>{% if id.pera_fiyat == None %}{% else %}{{ id.pera_fiyat }}&nbsp;<i class="fa fa-try"></i>{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Kamu Fiyatı:</th>
+                            <td>{% if id.kamu_fiyat == None %}{% else %}{{ id.kamu_fiyat }}&nbsp;<i class="fa fa-try"></i>{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Kamu Ödenen:</th>
+                            <td>{% if id.kamu_odenen == None %}{% else %}{{ id.kamu_odenen }}&nbsp;<i class="fa fa-try"></i>{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Depocu Fiyatı:</th>
+                            <td>{% if id.depo_fiyat == None %}{% else %}{{ id.depo_fiyat }}&nbsp;<i class="fa fa-try"></i> + KDV{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">İmalatçı Fiyatı:</th>
+                            <td>{% if id.imal_fiyat == None %}{% else %}{{ id.imal_fiyat }}&nbsp;<i class="fa fa-try"></i> + KDV{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Üretici Firma:</th>
+                            <td>{{ id.firma }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">aktif:</th>
+                            <td>{% if id.aktif == False %}<i class="fa fa-times-circle text-danger"></i>{% else %}<i class="fa fa-check-circle text-success"></i>{% endif %}</td>
+                        </tr>
+                    <!-- </tbody> -->
+            </table>
+        </div>
+        <div class="col-sm-3">
+            <table class="table table-hover">
+                <h4>Etken Maddeleri</h4>
+                    {% for idb in id.edb_set.all %}
+                        <tr>
+                            <!-- <th></th> -->
+                            <td>{{ idb }}</td>
+                        </tr>
+                    {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div id="muadil" class="tab-pane fade">
+        <div class="col-sm-3">
+            <table class="table table-hover">
+                <!-- <tbody class="col-xs-12 col-sm-3"> -->
+                    <h4>Kamu Muadilleri</h4>
+                        {% for i in id.muadil.all %}
+                            <tr>
+                                <th scope="row"><a href="{% url 'ilacdetay' i.ilac.id i.id %}">{{ i }}</a></th>
+                                <td>{{ i.pera_fiyat }}&nbsp;<i class="fa fa-try"></i></td>
+                            </tr>
+                        {% endfor %}
+                <!-- </tbody> -->
+            </table>
+        </div>
+        <div class="col-sm-3">
+            <table class="table table-hover">
+                <!-- <tbody class="col-xs-12 col-sm-3"> -->
+                    <h4>Yakın Muadilleri</h4>
+                        {% for i in id.yakin_muadil.all %}
+                            <tr>
+                                <th scope="row"><a href="{% url 'ilacdetay' i.ilac.id i.id %}">{{ i }}</a></th>
+                                <td>{{ i.pera_fiyat }}&nbsp;<i class="fa fa-try"></i></td>
+                            </tr>
+                        {% endfor %}
+                <!-- </tbody> -->
+            </table>
+        </div>
+
+        <!-- <div class="col-sm-3">
+            <h4>Yakın Muadilleri</h4>
+            {% for i in id.yakin_muadil.all %}<li><a href="{% url 'ilacdetay' i.ilac.id i.id %}">{{ i }}</a> - {{ i.pera_fiyat }}&nbsp;<i class="fa fa-try"></i></li>{% endfor %}
+        </div> -->
+    </div>
+
+
+    <div id="sut" class="tab-pane fade">
+      <h3>Özet</h3>
+      <p>Sut bilgileri.</p>
+    </div>
+    <div id="prospektus" class="tab-pane fade">
+      <h3>Prospektüs</h3>
+      <p>{{ id.prospektus }}</p>
+    </div>
+    <div id="kub" class="tab-pane fade">
+      <h3>KÜB</h3>
+      <p>{{ id.kub }}</p>
+    </div>
+    <div id="kt" class="tab-pane fade">
+      <h3>KT</h3>
+      <p>{{ id.kt }}</p>
+    </div>
+  </div>
+
+{% endfor %}
+</div>
+
+{% endblock %}

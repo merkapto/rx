@@ -1,0 +1,43 @@
+{% extends 'ilactemel.html' %}
+{% load staticfiles %}
+{% block head_title %} - ilaç bilgi kaynağınız...{% endblock %}
+
+{% block jumbotron %}
+{% endblock %}
+
+{% block ilaccesit %}
+    <!-- <div class="col-xs-6 col-xs-offset-6 col-sm-11 col-sm-offset-1 main"> -->
+
+    {% for ic in ilaccesitleri %}
+        <div class="col-xs-6 col-sm-2" align="center">
+
+            {% if ic.resim %}
+            <a href="{{ ic.resim.url }}" data-lightbox="{{ ic.resim }}">
+<!--                 <a href="{{ ic.resim.url }}" class="highslide" onclick="return hs.expand(this)"> -->
+<!--                 <img src="thumbnail.jpg" alt="Highslide JS" title="Click to enlarge" height="100" width="100" /> -->
+<!--                 <img src="{{ ic.resim.url }}" width="150" height="150" class="img-responsive" alt="{{ ic }}" /> -->
+                    <img src="{{ ic.resim.url }}" width="150" height="150" title="resmi büyütmek için tıklayın" alt="{{ ic }}" />
+            {% else %}
+                    <img src="/static/img/gorsel_yok.jpg" width="150" height="150" class="img-responsive" alt="gorsel yok" />
+            </a>
+            {% endif %}
+
+            <a href="{% url 'ilacdetay' ic.ilac.id ic.id %}">
+                <h4><b><i>{{ ic }}</i></b></h4>
+                {% for idb in ic.edb_set.all %}
+                    <h6 style="color:gray;"><b><i>{{ idb }}</i></b></h4>
+                {% endfor %}
+            <!-- <span class="text-muted">{{ ib.doz }}{{ ib.birim }}</span> -->
+            </a>
+
+        </div>
+
+    {% empty %}
+        <h1 style="color:red;">daha sonra eklenecektir, sabrınız için teşekkürler...</h1>
+        <hr>
+    {% endfor %}
+    <!-- </div> -->
+{% endblock %}
+
+
+{% block ilacustbilgi %}{% endblock %}
